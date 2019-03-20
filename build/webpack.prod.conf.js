@@ -11,6 +11,7 @@ const ExtractTextPlugin = require('extract-text-webpack-plugin')
 const OptimizeCSSPlugin = require('optimize-css-assets-webpack-plugin')
 // const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
 const ParallelUglifyPlugin = require('webpack-parallel-uglify-plugin');
+const UglifyJSPlugin = require('webpack/lib/optimize/UglifyJsPlugin');
 
 const env = require('../config/prod.env')
 
@@ -44,13 +45,25 @@ const webpackConfig = merge(baseWebpackConfig, {
     // }),
     new ParallelUglifyPlugin({
       cacheDir: '.cache/',
-      uglifyJS:{
+      uglifyJS: {
         output: {
           comments: false
         },
         compress: {
           warnings: false
         }
+      }
+    }),
+    new UglifyJSPlugin({
+      compress: {
+        warnings: false,  //删除无用代码时不输出警告
+        drop_console: true,  //删除所有console语句，可以兼容IE
+        collapse_vars: true,  //内嵌已定义但只使用一次的变量
+        reduce_vars: true,  //提取使用多次但没定义的静态值到变量
+      },
+      output: {
+        beautify: false, //最紧凑的输出，不保留空格和制表符
+        comments: false, //删除所有注释
       }
     }),
     // extract css into its own file
@@ -93,7 +106,7 @@ const webpackConfig = merge(baseWebpackConfig, {
     // split vendor js into its own file
     new webpack.optimize.CommonsChunkPlugin({
       name: 'vendor',
-      minChunks (module) {
+      minChunks(module) {
         // any required modules inside node_modules are extracted to vendor
         return (
           module.resource &&
