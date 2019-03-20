@@ -40,7 +40,8 @@ module.exports = {
     modules: [
       resolve('src'),
       resolve('node_modules')
-    ]
+    ],
+    mainFields: ['main', 'index']
   },
   module: {
     rules: [
