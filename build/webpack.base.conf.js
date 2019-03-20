@@ -6,6 +6,7 @@ const vueLoaderConfig = require('./vue-loader.conf')
 const HappyPack = require('happypack');
 const os = require('os');
 const happyThreadPool = HappyPack.ThreadPool({ size: os.cpus().length });
+const ModuleConcatenationPlugin = require('webpack/lib/optimize/ModuleConcatenationPlugin');
 
 function resolve(dir) {
   return path.join(__dirname, '..', dir)
@@ -44,7 +45,7 @@ module.exports = {
       resolve('src'),
       resolve('node_modules')
     ],
-    mainFields: ['jsnext:main', 'main', 'index']
+    mainFields: ['jsnext:main', 'browser', 'main']
   },
   module: {
     rules: [
@@ -102,7 +103,8 @@ module.exports = {
       threadPool: happyThreadPool,
       //允许 HappyPack 输出日志
       verbose: true,
-    })
+    }),
+    new ModuleConcatenationPlugin()
   ],
   node: {
     // prevent webpack from injecting useless setImmediate polyfill because Vue
