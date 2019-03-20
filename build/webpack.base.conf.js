@@ -44,7 +44,7 @@ module.exports = {
       resolve('src'),
       resolve('node_modules')
     ],
-    mainFields: ['main', 'index']
+    mainFields: ['jsnext:main', 'main', 'index']
   },
   module: {
     rules: [
