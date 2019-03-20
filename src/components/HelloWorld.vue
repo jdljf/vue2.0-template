@@ -1,6 +1,7 @@
 <template>
   <div class="hello">
     <h1>{{ msg }}</h1>
+    <h1>{{ sum }}</h1>
     <h2>Essential Links</h2>
     <ul>
       <li>
@@ -84,12 +85,20 @@
 </template>
 
 <script>
+import { arraySum } from '../treeShaking/test1.js';
+import '../treeShaking/test2.js'; // 引用，“未使用”，不会被打包
+import '../treeShaking/reset.css'; // 引用，“未使用”，不会被打包
+
 export default {
   name: 'HelloWorld',
   data () {
     return {
-      msg: 'Welcome to Your Vue.js App'
+      msg: 'Welcome to Your Vue.js App',
+      sum: 0
     }
+  },
+  mounted(){
+    this.sum = arraySum([12, 3])
   }
 }
 </script>

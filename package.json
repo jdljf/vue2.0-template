@@ -1,6 +1,9 @@
 {
   "name": "op-webpack",
   "version": "1.0.0",
+  "sideEffects": [
+    "*.css", "*.scss", "*.sass"
+  ],
   "description": "A Vue.js project",
   "author": "jdljf <1243270526@qq.com>",
   "private": true,
