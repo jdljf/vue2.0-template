@@ -41,7 +41,10 @@ const devWebpackConfig = merge(baseWebpackConfig, {
     proxy: config.dev.proxyTable,
     quiet: true, // necessary for FriendlyErrorsPlugin
     watchOptions: {
-      poll: config.dev.poll,
+      ignored: /node_modules/,
+      aggregateTimeout: 300,  //文件变动后多久发起构建，越大越好
+      poll: 1000,  //每秒询问次数，越小越好
+      // poll: config.dev.poll,
     }
   },
   plugins: [
@@ -85,8 +88,8 @@ module.exports = new Promise((resolve, reject) => {
           messages: [`Your application is running here: http://${devWebpackConfig.devServer.host}:${port}`],
         },
         onErrors: config.dev.notifyOnErrors
-        ? utils.createNotifierCallback()
-        : undefined
+          ? utils.createNotifierCallback()
+          : undefined
       }))
 
       resolve(devWebpackConfig)
